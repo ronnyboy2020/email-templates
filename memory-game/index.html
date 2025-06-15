@@ -8,10 +8,15 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
+        }
+        #info {
+            margin-bottom: 20px;
+            font-size: 1.2em;
         }
         #game {
             display: grid;
@@ -37,13 +42,16 @@
     </style>
 </head>
 <body>
+    <div id="info">Nivel <span id="level">1</span></div>
     <div id="game"></div>
 
     <script>
-        const symbols = ['A','A','B','B','C','C','D','D',
-                         'E','E','F','F','G','G','H','H'];
+        const allSymbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const maxLevel = 5;
+        let level = 1;
         let firstCard = null;
         let lock = false;
+        let matchedPairs = 0;
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -74,6 +82,10 @@
                     card.classList.add('matched');
                     firstCard.classList.add('matched');
                     firstCard = null;
+                    matchedPairs++;
+                    if (matchedPairs === level * 2) {
+                        nextLevel();
+                    }
                 } else {
                     lock = true;
                     setTimeout(() => {
@@ -86,13 +98,35 @@
             }
         }
 
-        function init() {
-            shuffle(symbols);
+        function startLevel() {
+            matchedPairs = 0;
+            firstCard = null;
+            lock = false;
+
+            const pairs = level * 2;
+            const symbols = allSymbols.slice(0, pairs);
+            const cards = symbols.concat(symbols);
+            shuffle(cards);
+
             const game = document.getElementById('game');
-            symbols.forEach(sym => game.appendChild(createCard(sym)));
+            game.innerHTML = '';
+            const cols = level === 5 ? 5 : 4;
+            game.style.gridTemplateColumns = `repeat(${cols}, 80px)`;
+            cards.forEach(sym => game.appendChild(createCard(sym)));
+
+            document.getElementById('level').textContent = level;
         }
 
-        init();
+        function nextLevel() {
+            if (level < maxLevel) {
+                level++;
+                setTimeout(startLevel, 1000);
+            } else {
+                setTimeout(() => alert('¡Juego completado!'), 500);
+            }
+        }
+
+        startLevel();
     </script>
 </body>
 </html>
