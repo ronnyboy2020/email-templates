@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ritmo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, button {
+            padding: 8px;
+            margin-top: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Ritmo</h1>
+    <label for="distance">Distancia (km)</label>
+    <select id="distance">
+        <option value="5">5 km</option>
+        <option value="10">10 km</option>
+        <option value="21">21 km</option>
+        <option value="42">42 km</option>
+    </select>
+
+    <label>Tiempo objetivo</label>
+    <input type="number" id="hours" placeholder="Horas" min="0">
+    <input type="number" id="minutes" placeholder="Minutos" min="0" max="59">
+    <input type="number" id="seconds" placeholder="Segundos" min="0" max="59">
+
+    <button onclick="calcularPace()">Calcular Pace</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        function calcularPace() {
+            const distancia = parseFloat(document.getElementById('distance').value);
+            const horas = parseInt(document.getElementById('hours').value) || 0;
+            const minutos = parseInt(document.getElementById('minutes').value) || 0;
+            const segundos = parseInt(document.getElementById('seconds').value) || 0;
+
+            const totalSegundos = horas * 3600 + minutos * 60 + segundos;
+            if (!distancia || totalSegundos <= 0) {
+                document.getElementById('resultado').textContent = 'Ingresa distancia y tiempo válidos.';
+                return;
+            }
+
+            const paceTotalSegundos = totalSegundos / distancia;
+            const paceMinutos = Math.floor(paceTotalSegundos / 60);
+            const paceSegundos = Math.round(paceTotalSegundos % 60).toString().padStart(2, '0');
+
+            document.getElementById('resultado').textContent = `Pace: ${paceMinutos}:${paceSegundos} min/km`;
+        }
+    </script>
+</body>
+</html>
