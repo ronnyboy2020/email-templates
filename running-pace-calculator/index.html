@@ -4,48 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Ritmo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 400px;
-            margin: 40px auto;
-            text-align: center;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-        input, select, button {
-            padding: 8px;
-            margin-top: 5px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        #resultado {
-            margin-top: 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Calculadora de Ritmo</h1>
-    <label for="distance">Distancia (km)</label>
-    <select id="distance">
-        <option value="5">5 km</option>
-        <option value="10">10 km</option>
-        <option value="21">21 km</option>
-        <option value="42">42 km</option>
-    </select>
+<body class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4 text-center">Calculadora de Ritmo</h1>
 
-    <label>Tiempo objetivo</label>
-    <input type="number" id="hours" placeholder="Horas" min="0">
-    <input type="number" id="minutes" placeholder="Minutos" min="0" max="59">
-    <input type="number" id="seconds" placeholder="Segundos" min="0" max="59">
+        <label for="distance" class="block font-semibold">Distancia (km)</label>
+        <select id="distance" class="mt-1 mb-4 w-full border rounded p-2">
+            <option value="5">5 km</option>
+            <option value="10">10 km</option>
+            <option value="21">21 km</option>
+            <option value="42">42 km</option>
+        </select>
 
-    <button onclick="calcularPace()">Calcular Pace</button>
+        <label class="block font-semibold">Tiempo objetivo</label>
+        <div class="grid grid-cols-3 gap-2 mt-1 mb-4">
+            <input type="number" id="hours" placeholder="Horas" min="0" class="border rounded p-2">
+            <input type="number" id="minutes" placeholder="Minutos" min="0" max="59" class="border rounded p-2">
+            <input type="number" id="seconds" placeholder="Segundos" min="0" max="59" class="border rounded p-2">
+        </div>
 
-    <div id="resultado"></div>
+        <button class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600" onclick="calcularPace()">Calcular Pace</button>
+
+        <div id="resultado" class="mt-4 text-center font-bold"></div>
+    </div>
 
     <script>
         function calcularPace() {
